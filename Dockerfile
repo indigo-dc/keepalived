@@ -1,7 +1,6 @@
-FROM debian:jessie
-MAINTAINER Andreas Krüger
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update -qq && apt-get install --no-install-recommends --no-install-suggests -qqy keepalived && rm -rf /var/lib/apt/lists/*
+FROM alpine:latest
+
+RUN echo "http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk --update -t add keepalived iproute2 grep bash tcpdump sed perl && rm -f /var/cache/apk/* /tmp/*
 
 COPY run.sh /run.sh
 COPY keepalived.conf /etc/keepalived/keepalived.conf
