@@ -17,4 +17,4 @@ perl -p -i -e "s/\{\{ password \}\}/$password/" $PATH_KEEPALIVED_CONF
 rm -f /var/run/keepalived.pid /run/*
 
 # Foreground keepalived
-/usr/sbin/keepalived -f /etc/keepalived/keepalived.conf --dont-fork --log-console
+/usr/sbin/keepalived -f /etc/keepalived/keepalived.conf --dont-fork --vrrp --log-detail --log-console
