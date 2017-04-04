@@ -13,5 +13,8 @@ perl -p -i -e "s/\{\{ priority \}\}/$priority/" $PATH_KEEPALIVED_CONF
 perl -p -i -e "s/\{\{ floating_ip \}\}/$floating_ip/" $PATH_KEEPALIVED_CONF
 perl -p -i -e "s/\{\{ password \}\}/$password/" $PATH_KEEPALIVED_CONF
 
+# Workaround: avoid container doesn't restart
+rm -f /var/run/keepalived.pid /run/*
+
 # Foreground keepalived
 /usr/sbin/keepalived -f /etc/keepalived/keepalived.conf --dont-fork --log-console
