@@ -22,12 +22,13 @@ spec:
       containers:
       - name: keepalived
         image: angelnu/keepalived-arm:latest
+        imagePullPolicy: Always
         securityContext:
           privileged: true
         env:
         #- name: KEEPALIVED_PRIORITY
         #  value: "$(${HOSTIP}|cut -d. -f4)"
-        - name: HOSTIP
+        - name: HOST_IP
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
