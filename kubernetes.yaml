@@ -4,6 +4,7 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
+  namespace: kube-system
   labels:
     app: keepalived
   name: keepalived
@@ -15,6 +16,7 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      namespace: kube-system
       labels:
         app: keepalived
     spec:
