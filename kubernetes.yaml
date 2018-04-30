@@ -21,6 +21,8 @@ spec:
         app: keepalived
     spec:
       hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: arm
       containers:
       - name: keepalived
         image: angelnu/keepalived-arm:latest
