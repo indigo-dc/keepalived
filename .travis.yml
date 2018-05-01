@@ -31,10 +31,11 @@ jobs:
   include:
   - stage: Manifest
     script:
-    - mkdir -p $HOME/.docker
-    - echo '{"experimental": "enabled"}'>$HOME/.docker/config.json
-    - ls -lr
-    - ls -l .docker
+    - |
+      mkdir -p $HOME/.docker
+      echo '{"experimental": "enabled"}'>$HOME/.docker/config.json
+      ls -lr
+      ls -l .docker
     - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
     - |
       if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
