@@ -77,13 +77,13 @@ if [ "$MANIFEST" = true ] ; then
   
   for arch in $ARCHS; do
     echo
-    echo "Add ${REPO}/${IMAGE}:${TAG}-${arch} to manifest ${REPO}/${IMAGE}:${TAG}"
+    echo "Add ${REPO}:${TAG}-${arch} to manifest ${REPO}:${TAG}"
     echo
-    docker manifest create --amend ${REPO}/${IMAGE}:${TAG} ${REPO}/${IMAGE}:${TAG}-${arch}
-    docker manifest annotate       ${REPO}/${IMAGE}:${TAG} ${REPO}/${IMAGE}:${TAG}-${arch} --arch ${arch}
+    docker manifest create --amend ${REPO}:${TAG} ${REPO}/:${TAG}-${arch}
+    docker manifest annotate       ${REPO}:${TAG} ${REPO}/:${TAG}-${arch} --arch ${arch}
   done
 
   echo
-  echo "Push manifest angelnu/${IMAGE}:${TAG}"
-  docker manifest push ${REPO}/${IMAGE}:${TAG}
+  echo "Push manifest ${REPO}:${TAG}"
+  docker manifest push ${REPO}:${TAG}
 fi
