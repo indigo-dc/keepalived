@@ -14,17 +14,17 @@ env:
   matrix:
   # TARGET_IMG  = Base image architecture to be used
   # TARGET_ARCH = qemu binary to be downloaded from https://github.com/multiarch/qemu-user-static/releases
-  - TARGET_IMG=amd64   TARGET_ARCH=amd64
-  - TARGET_IMG=arm64v8 TARGET_ARCH=aarch64
-  - TARGET_IMG=arm32v6 TARGET_ARCH=arm
+  - TARGET_IMG=amd64   DOCKER_ARCH=amd64 QEMU_ARCH=amd64
+  - TARGET_IMG=arm64v8 DOCKER_ARCH=arm64 QEMU_ARCH=aarch64
+  - TARGET_IMG=arm32v6 DOCKER_ARCH=arm   QEMU_ARCH=arm
 
 script:
-- echo BUILD=true PUSH=false ./build.sh
+- BUILD=true PUSH=false ./build.sh
 - |
   if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
     # Push image
     docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-    echo BUILD=false PUSH=true ./build.sh
+    BUILD=false PUSH=true ./build.sh
   fi
 
 jobs:
