@@ -37,6 +37,6 @@ jobs:
     - docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
     - |
       if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-        ARCHS="arm amd64 aarch64" BUILD=false PUSH=false MANIFEST=true ./build.sh
+        ARCHS="arm amd64 arm64" BUILD=false PUSH=false MANIFEST=true ./build.sh
       fi
     env:
