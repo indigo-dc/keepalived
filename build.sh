@@ -2,18 +2,58 @@
 set -e
 cd $(dirname $0)
 
-case $( uname -m ) in
-armv7l)
-  REPO="angelnu/keepalived-arm"
+#Usually set from the outside
+: ${TARGET_ARCH:="$(uname -m)"}
+: ${TARGET_IMG:=""}
+: ${TAG:="latest"}
+: ${BUILD:="true"}
+: ${PUSH:="true"}
+: ${MANIFEST:="false"}
+
+#good defaults
+: ${BASE:="alpine"}
+: ${REPO:="angelnu/keepalived"}
+: ${QEMU_VERSION:="v2.11.1"}
+
+
+#Prepare qemu
+mkdir -p qemu
+cd qemu
+if [ ! -f qemu-"$TARGET_ARCH"-static ]; then
+  if [ "$TARGET_ARCH" = "$(uname -m)" ]; then
+    touch qemu-"$TARGET_ARCH"-static
+  else
+    # Prepare qemu
+    docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    curl -L -o qemu-"$TARGET_ARCH"-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/"$QEMU_VERSION"/qemu-"$TARGET_ARCH"-static.tar.gz
+    tar xzf qemu-"$TARGET_ARCH"-static.tar.gz
+    rm qemu-"$TARGET_ARCH"-static.tar.gz
+  fi
+fi
+cd ..
+
+case $TARGET_ARCH in
+armv7l|arm)
+  ARCH_TAG="${TAG}-arm"
   ;;
-x86_64)
-  REPO="angelnu/keepalived-amd64"
+x86_64|amd64)
+  ARCH_TAG="${TAG}-amd64"
   ;;
 *)
-  echo "Unknown arch $( uname -p )"
+  echo "Unknown arch $TARGET_ARCH"
   exit 1
   ;;
 esac
 
-docker build -t $REPO .
-docker push $REPO
+if [ "$BUILD" = true ] ; then
+
+  BASE=alpine
+  if [ -n "$TARGET_IMG" ]; then
+    BASE="$TARGET_IMG/$BASE"
+  fi
+
+  docker build -t $REPO:$ARCH_TAG --build-arg target=$BASE --build-arg arch=$TARGET_ARCH .
+fi
+if [ "$PUSH" = true ] ; then
+  docker push $REPO:$ARCH_TAG
+fi
