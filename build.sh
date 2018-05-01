@@ -21,7 +21,7 @@ mkdir -p qemu
 cd qemu
 if [ ! -f qemu-"$TARGET_ARCH"-static ]; then
   echo "Running in arch $(uname -m) and with TARGET_ARCH $TARGET_ARCH"
-  if [ "$(uname -m)" = "x86_64" -o "$TARGET_ARCH" = "$(uname -m)" ]; then
+  if [ "$TARGET_ARCH" = "x86_64" -o "$TARGET_ARCH" = "$(uname -m)" ]; then
     touch qemu-"$TARGET_ARCH"-static
   else
     # Prepare qemu
