@@ -47,7 +47,7 @@ if [ "$BUILD" = true ] ; then
     BASE="$TARGET_IMG/$BASE"
   fi
   echo "Using base image: $BASE"
-  docker build -t $REPO:$DOCKER_ARCH --build-arg BASE=$BASE --build-arg arch=$DOCKER_ARCH .
+  docker build -t $REPO:$DOCKER_ARCH --build-arg BASE=$BASE --build-arg arch=$QEMU_ARCH .
 fi
 
 ##############################
