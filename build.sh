@@ -20,7 +20,7 @@ cd $(dirname $0)
 mkdir -p qemu
 cd qemu
 if [ ! -f qemu-"$TARGET_ARCH"-static ]; then
-  if [ "$TARGET_ARCH" = "$(uname -m)" ]; then
+  if [ "$(uname -m)" = "x86_64" || "$TARGET_ARCH" = "$(uname -m)" ]; then
     touch qemu-"$TARGET_ARCH"-static
   else
     # Prepare qemu
