@@ -1,0 +1,42 @@
+
+# ------------------- daemonset ------------------- #
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  namespace: kube-system
+  labels:
+    app: keepalived
+  name: keepalived
+spec:
+  selector:
+    matchLabels:
+      app: keepalived
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      namespace: kube-system
+      labels:
+        app: keepalived
+    spec:
+      hostNetwork: true
+      nodeSelector:
+        beta.kubernetes.io/arch: arm
+      containers:
+      - name: keepalived
+        image: angelnu/keepalived-arm:latest
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+        env:
+        #- name: KEEPALIVED_PRIORITY
+        #  value: "$(${HOSTIP}|cut -d. -f4)"
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: KEEPALIVED_VIRTUAL_IP
+          value: 192.168.2.200
+        - name: KEEPALIVED_PASSWORD
+          value: "changeMe"
