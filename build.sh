@@ -49,14 +49,14 @@ if [ "$BUILD" = true ] ; then
     BASE="$TARGET_IMG/$BASE"
   fi
   echo "Using base image: $BASE"
-  docker build -t $REPO:$DOCKER_ARCH --build-arg BASE=$BASE --build-arg arch=$QEMU_ARCH .
+  docker build -t $REPO:$ARCH_TAG --build-arg BASE=$BASE --build-arg arch=$QEMU_ARCH .
 fi
 
 ##############################
 
 if [ "$PUSH" = true ] ; then
   echo "PUSHING TO DOCKER"
-  docker push $REPO:$DOCKER_ARCH
+  docker push $REPO:$ARCH_TAG
 fi
 
 ###############################
