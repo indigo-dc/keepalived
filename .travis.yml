@@ -19,12 +19,12 @@ env:
   - TARGET_IMG=arm32v6 TARGET_ARCH=arm
 
 script:
-- BUILD=true PUSH=false ./build.sh
+- echo BUILD=true PUSH=false ./build.sh
 - |
   if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
     # Push image
     docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-    BUILD=false PUSH=true ./build.sh
+    echo BUILD=false PUSH=true ./build.sh
   fi
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
   - stage: Manifest
     script:
     - |
-      if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-        BUILD=false PUSH=false MANIFEST=true ./build.sh
+      if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+        ARCHS="arm amd64 aarch64" BUILD=false PUSH=false MANIFEST=true ./build.sh
       fi
     env:
