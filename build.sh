@@ -52,7 +52,7 @@ if [ "$BUILD" = true ] ; then
     BASE="$TARGET_IMG/$BASE"
   fi
 
-  docker build -t $REPO:$ARCH_TAG --build-arg target=$BASE --build-arg arch=$TARGET_ARCH .
+  docker build -t $REPO:$ARCH_TAG --build-arg BASE=$BASE --build-arg arch=$TARGET_ARCH .
 fi
 if [ "$PUSH" = true ] ; then
   docker push $REPO:$ARCH_TAG
