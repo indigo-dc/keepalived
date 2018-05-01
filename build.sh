@@ -16,7 +16,7 @@ cd $(dirname $0)
 : ${BASE:="alpine"}
 : ${REPO:="angelnu/keepalived"}
 : ${QEMU_VERSION:="v2.11.1"}
-
+: ${DOCKER_ARCH:="$TAG-$DOCKER_ARCH"}
 
 
 ###############################
@@ -27,12 +27,14 @@ if [ "$BUILD" = true ] ; then
   #Prepare qemu
   mkdir -p qemu
   cd qemu
-  if [ ! -f qemu-"$QEMU_ARCH"-static ]; then
-    echo "Running in arch $DOCKER_ARCH with target arch $QEMU_ARCH"
-    if [ -z "$QEMU_ARCH" ]; then
-      touch qemu-"$QEMU_ARCH"-static
-    else
-      # Prepare qemu
+  
+  if [ -z "$QEMU_ARCH" ]; then
+    echo "Building without qemu
+    touch qemu-"$QEMU_ARCH"-static
+  else
+    # Prepare qemu
+    echo "Building docker for arch $DOCKER_ARCH using qemu arch $QEMU_ARCH"
+    if [ ! -f qemu-"$QEMU_ARCH"-static ]; then
       docker run --rm --privileged multiarch/qemu-user-static:register --reset
       curl -L -o qemu-"$QEMU_ARCH"-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/"$QEMU_VERSION"/qemu-"$QEMU_ARCH"-static.tar.gz
       tar xzf qemu-"$QEMU_ARCH"-static.tar.gz
