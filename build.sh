@@ -16,7 +16,7 @@ cd $(dirname $0)
 : ${BASE:="alpine"}
 : ${REPO:="angelnu/keepalived"}
 : ${QEMU_VERSION:="v2.11.1"}
-: ${DOCKER_ARCH:="$TAG-$DOCKER_ARCH"}
+: ${ARCH_TAG:="$TAG-$DOCKER_ARCH"}
 
 
 ###############################
@@ -29,7 +29,7 @@ if [ "$BUILD" = true ] ; then
   cd qemu
   
   if [ -z "$QEMU_ARCH" ]; then
-    echo "Building without qemu
+    echo "Building without qemu"
     touch qemu-"$QEMU_ARCH"-static
   else
     # Prepare qemu
