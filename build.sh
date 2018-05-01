@@ -77,13 +77,13 @@ if [ "$MANIFEST" = true ] ; then
   
   for arch in $ARCHS; do
     echo
-    echo "Pull ${REPO}:${TAG}"
-    docker pull ${REPO}:${TAG}
+    echo "Pull ${REPO}:${TAG}-${arch}"
+    docker pull ${REPO}:${TAG}-${arch}
     
     echo
     echo "Add ${REPO}:${TAG}-${arch} to manifest ${REPO}:${TAG}"
-    docker manifest create --amend ${REPO}:${TAG} ${REPO}/:${TAG}-${arch}
-    docker manifest annotate       ${REPO}:${TAG} ${REPO}/:${TAG}-${arch} --arch ${arch}
+    docker manifest create --amend ${REPO}:${TAG} ${REPO}:${TAG}-${arch}
+    docker manifest annotate       ${REPO}:${TAG} ${REPO}:${TAG}-${arch} --arch ${arch}
   done
 
   echo
