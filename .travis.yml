@@ -12,9 +12,9 @@ language: bash
 
 env:
   matrix:
-  # TARGET_IMG  = Base image architecture to be used
+  # TARGET_IMG  = Base image architecture to be used for alpine
   # TARGET_ARCH = qemu binary to be downloaded from https://github.com/multiarch/qemu-user-static/releases
-  - TARGET_IMG=amd64   DOCKER_ARCH=amd64 QEMU_ARCH=amd64
+  - TARGET_IMG=amd64   
   - TARGET_IMG=arm64v8 DOCKER_ARCH=arm64 QEMU_ARCH=aarch64
   - TARGET_IMG=arm32v6 DOCKER_ARCH=arm   QEMU_ARCH=arm
 
