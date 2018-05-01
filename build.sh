@@ -20,6 +20,7 @@ cd $(dirname $0)
 mkdir -p qemu
 cd qemu
 if [ ! -f qemu-"$TARGET_ARCH"-static ]; then
+  echo "Running in arch $(uname -m) and with TARGET_ARCH $TARGET_ARCH"
   if [ "$(uname -m)" = "x86_64" -o "$TARGET_ARCH" = "$(uname -m)" ]; then
     touch qemu-"$TARGET_ARCH"-static
   else
@@ -36,6 +37,9 @@ case $TARGET_ARCH in
 armv7l|arm)
   ARCH_TAG="${TAG}-arm"
   ;;
+aarch64)
+  ARCH_TAG="${TAG}-aarch64"
+  ;;
 x86_64|amd64)
   ARCH_TAG="${TAG}-amd64"
   ;;
@@ -51,7 +55,7 @@ if [ "$BUILD" = true ] ; then
   if [ -n "$TARGET_IMG" ]; then
     BASE="$TARGET_IMG/$BASE"
   fi
-
+  echo "Using base image: $BASE"
   docker build -t $REPO:$ARCH_TAG --build-arg BASE=$BASE --build-arg arch=$TARGET_ARCH .
 fi
 if [ "$PUSH" = true ] ; then
