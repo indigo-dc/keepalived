@@ -21,7 +21,8 @@ env:
 script:
 - BUILD=true PUSH=false ./build.sh
 - |
-  if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  # maybe depending on the $TRAVIS_BRANCH I can build master or devel branches
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     # Push image
     docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
     BUILD=false PUSH=true ./build.sh
