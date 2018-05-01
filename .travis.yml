@@ -20,12 +20,12 @@ env:
     - TARGET_IMG=arm32v6 TARGET_ARCH=arm     TAG=arm
 
 script:
-  - ./build.sh BUILD=true PUSH=false
+  - BUILD=true PUSH=false ./build.sh
   - >
     if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
       # Push image
       docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
-      ./build.sh BUILD=false PUSH=true
+      BUILD=false PUSH=true ./build.sh
     fi
 jobs:
   include:
